@@ -20,26 +20,27 @@ def check_password(password_to_test):
         hashed, count = record.split(":")
 
         if suffix == hashed:
-            #print(password_to_test + " detected " + str(count) + "x")
+            # print(password_to_test + " detected " + str(count) + "x")
             return count
             break
 
 
 def main():
     # simple version using pwnedpasswords wrapper
-    pwnedpasswords.check("P@ssw0rd")
+    # pwnedpasswords.check("P@ssw0rd")
 
     # step by step 'manual' version
-    password_to_test = "P@ssw0rd"
-    check_password(password_to_test)
-
-
-    file_path = "top20.txt"
+    file_path = "passwords.txt"
     with open(file_path, 'r') as file:
+        dict = {}
         for line in file:
-            dic = {}
-            dic[line.split()[0]] = check_password(line.split()[0])
-            
+            pswd = line.split()[0]
+            dict[pswd] = check_password(pswd)
+
+        srtddict = sorted(dict.items(), key=lambda item: int(item[1]), reverse=True)
+        for i in srtddict:
+            print(i)
+
 
 if __name__ == "__main__":
     main()
